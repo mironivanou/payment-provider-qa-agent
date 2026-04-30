@@ -39,6 +39,7 @@ payment-provider-qa-agent/
 │   └── confluence-provider-summary.md
 └── docs/
     └── workflow.md
+```
 
 ## Prompts
 
