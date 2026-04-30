@@ -1,5 +1,7 @@
 # Payment Provider QA Agent
-![QA Toolkit](https://img.shields.io/badge/QA-Payments-blue)
+![Domain](https://img.shields.io/badge/Domain-Payments-blue)
+![Type](https://img.shields.io/badge/Type-QA%20Toolkit-green)
+![AI](https://img.shields.io/badge/AI-Assisted-orange)
 
 AI-assisted QA toolkit for payment provider integrations.
 
