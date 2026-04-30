@@ -1,1 +1,32 @@
+"id","title","description","preconditions","postconditions","tags","priority","severity","type","behavior","automation","status","is_flaky","layer","steps_type","steps_actions","steps_result","steps_data","milestone_id","milestone","suite_id","suite_parent_id","suite","suite_without_cases","parameters","is_muted"
+"","","","","","","","","","","","","","","","","","","","","1","","Gate2way blik-InstaX","1","",""
+"","","","","","","","","","","","","","","","","","","","","2","1","Payment method routing","1","",""
+"","","","","","","","","","","","","","","","","","","","","3","1","State & redirect","1","",""
+"","","","","","","","","","","","","","","","","","","","","4","1","Outgoing request contract","1","",""
+"","","","","","","","","","","","","","","","","","","","","5","1","End-to-end outcomes","1","",""
+"","BLK-01 blik-InstaX without blikcode goes straight to provider redirect","","","","api_code_gate2way","high","critical","functional","positive","is-not-automated","actual","no","api","classic","1. Initiate a deposit with paymentMethod = blik-InstaX and no additionalParameters.blikcode
+2. Observe the buyer flow","Buyer is redirected directly to the provider's hosted page. Our blikcode-entry screen is NOT shown. State transitions initial -> AWAITING_REDIRECT in one step (no INPUT_REQUIRED). Reproduces the original Expay incident scenario.","","","","2","1","Payment method routing","","",""
+"","BLK-02 Regression: blik-MB without blikcode still triggers our blikcode entry screen","","","","api_code_gate2way","high","critical","functional","positive","is-not-automated","actual","no","api","classic","1. Initiate a deposit with paymentMethod = blik-MB (or default, no override)
+2. Do not pass additionalParameters.blikcode
+3. Stage 0","Our blikcode input screen is shown (INPUT_REQUIRED). Provider is NOT called yet. blik-MB H2H/S2S flow remains intact after the fix.","","","","2","1","Payment method routing","","",""
+"","BLK-03 Regression: blik-MB with blikcode in additionalParameters - S2S to provider, no our screen","","","","api_code_gate2way","high","major","functional","positive","is-not-automated","actual","no","api","classic","1. Initiate a deposit with paymentMethod = blik-MB
+2. Pass additionalParameters.blikcode with a valid 6-digit code","No blikcode input screen on our side. Outgoing request to the provider contains source.bankCode = <blikcode>.","","","","2","1","Payment method routing","","",""
+"","BLK-04 blik-InstaX with blikcode in additionalParameters - code is ignored, redirect proceeds","","","","api_code_gate2way","high","major","functional","negative","is-not-automated","actual","no","api","classic","1. Initiate a deposit with paymentMethod = blik-InstaX
+2. Pass additionalParameters.blikcode with any value
+3. Inspect the outgoing request to the provider","blikcode is NOT sent to the provider in source.bankCode or source.accountBankCode. Buyer is still redirected to the provider's hosted page. No INPUT_REQUIRED step on our side.","","","","2","1","Payment method routing","","",""
+"","BLK-18 Terminal config paymentMethod=blik-InstaX overrides default blik-MB routing","","","","api_code_gate2way","high","major","functional","positive","is-not-automated","actual","no","api","classic","1. Configure the terminal with paymentMethod = blik-InstaX
+2. Initiate a deposit","Request is routed to InstaX with apiPaymentMethod = 'blik-InstaX'. Default blik-MB route is NOT used. Reproduces the original Asana ticket scenario.","","","","2","1","Payment method routing","","",""
+"","BLK-05 Provider status PaymentPageRequested for blik-InstaX maps to AWAITING_REDIRECT","","","","api_code_gate2way","high","critical","functional","positive","is-not-automated","actual","no","api","classic","1. Trigger a blik-InstaX deposit
+2. Inspect the provider's first response
+3. Inspect our internal state transitions","Provider returns status = PaymentPageRequested plus a Links array with the redirect URL. Our system transitions to AWAITING_REDIRECT in a single step - no INPUT_REQUIRED before it. Closes the root cause of the double-screen bug.","","","","3","1","State & redirect","","",""
+"","BLK-16 blik-InstaX request does NOT include source.bankCode","","","","api_code_gate2way","high","major","functional","positive","is-not-automated","actual","no","api","classic","1. Initiate a blik-InstaX deposit with any settings
+2. Inspect the outgoing JSON to the provider","The body contains source.paymentMethod = 'blik-InstaX' but does NOT contain source.bankCode. Confirms the BLIK input branch is fully skipped for InstaX as intended by the fix.","","","","4","1","Outgoing request contract","","",""
+"","BLK-09 Happy path: blik-InstaX redirect -> success -> Captured","","","","api_code_gate2way","high","critical","functional","positive","is-not-automated","actual","no","api","classic","1. POST a valid blik-InstaX deposit (PLN, PL, amount in 20-4100 range)
+2. Redirect the buyer to the provider URL from Links
+3. Confirm the payment with a valid blikcode on the provider page
+4. Wait for the webhook","Response carries nextAction.type = RedirectToUrl. Buyer reaches successUrl. Webhook with Data.Status = Captured is received and processed. Final transaction state = Captured.","","","","5","1","End-to-end outcomes","","",""
+"","BLK-08 blik-InstaX rejected by provider - failureUrl + Failed","","","","api_code_gate2way","high","major","functional","negative","is-not-automated","actual","no","api","classic","1. Initiate a blik-InstaX deposit with conditions causing decline (e.g. wrong/expired blikcode)
+2. Follow the buyer flow to the provider page","Buyer lands on failureUrl. State = Failed. declineReason and declineCode are populated when polling check-state.","","","","5","1","End-to-end outcomes","","",""
+"","BLK-20 Webhook PurchaseCaptured for blik-InstaX finalises the transaction","","","","api_code_gate2way","high","critical","functional","positive","is-not-automated","actual","no","api","classic","1. Complete a blik-InstaX deposit successfully
+2. Wait for the webhook from the provider","Webhook with Type = webhook and Data.Status = Captured is received and processed. Transaction is moved to Captured. Without this the InstaX flow cannot finalise in production.","","","","5","1","End-to-end outcomes","","",""
 
