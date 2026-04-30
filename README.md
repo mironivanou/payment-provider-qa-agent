@@ -39,3 +39,38 @@ payment-provider-qa-agent/
 │   └── confluence-provider-summary.md
 └── docs/
     └── workflow.md
+
+## Prompts
+
+- [Provider QA Checklist Generator](prompts/01-provider-qa-checklist-generator.md)
+- [Qase CSV Exporter](prompts/02-qase-csv-exporter.md)
+
+---
+
+## Example
+
+See the `/examples` folder for:
+
+- sample input
+- generated checklist
+- Qase CSV output
+
+---
+
+## Use case
+
+This toolkit is designed for QA engineers working with:
+
+- PSP integrations  
+- payment gateways  
+- alternative payment methods  
+- hosted payment pages (HPP)  
+- webhooks  
+- refunds and withdrawals  
+- Qase test management  
+
+---
+
+## Author
+
+Created as a practical QA automation support toolkit for payment provider integration testing.
