@@ -58,6 +58,18 @@ See the `/examples` folder for:
 
 ---
 
+## Example scenario
+
+This repository includes a real-world example based on a payment flow with:
+
+- BLIK payment method
+- redirect + input flow
+- provider-side field mapping differences
+
+See `/examples` for full flow.
+
+===
+
 ## Use case
 
 This toolkit is designed for QA engineers working with:
