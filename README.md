@@ -1,4 +1,5 @@
 # Payment Provider QA Agent
+![QA Toolkit](https://img.shields.io/badge/QA-Payments-blue)
 
 AI-assisted QA toolkit for payment provider integrations.
 
