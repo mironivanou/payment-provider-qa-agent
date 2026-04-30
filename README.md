@@ -72,6 +72,17 @@ This toolkit is designed for QA engineers working with:
 
 ---
 
+## Demo
+
+Example flow:
+
+1. Input: provider documentation + task
+2. Output: provider-specific checklist
+3. Output: Qase-ready CSV
+
+See `/examples` for full example.
+
+---
 ## Author
 
 Created as a practical QA automation support toolkit for payment provider integration testing.
